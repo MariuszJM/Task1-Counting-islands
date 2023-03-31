@@ -1,51 +1,47 @@
 from collections import deque
+from typing import List
 
 
-def count_islands_dfs(matrix):
+def count_islands_dfs(matrix: List[List[int]]) -> int:
     """Depth-First Search Approach"""
 
-    #     todo check the imput
     def dfs(row, column):
-        if (
-                row < 0
-                or column < 0
-                or row >= len(matrix)
-                or column >= len(matrix[0])
-                or matrix[row][column] == 0
-        ):
+        if not (0 <= row < len(matrix)) or not (0 <= column < len(matrix[0])) or matrix[row][column] == 0:
             return
         matrix[row][column] = 0
-        dfs(row - 1, column)
-        dfs(row + 1, column)
-        dfs(row, column - 1)
-        dfs(row, column + 1)
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        for dr, dc in directions:
+            dfs(row + dr, column + dc)
 
     count = 0
-    for row in range(len(matrix)):
-        for column in range(len(matrix[0])):
-            if matrix[row][column] == 1:
+    for row, row_values in enumerate(matrix):
+        for column, value in enumerate(row_values):
+            if value == 1:
                 count += 1
                 dfs(row, column)
 
     return count
 
 
-def count_islands_bfs(matrix):
+def count_islands_bfs(matrix: List[List[int]]) -> int:
     """Breadth-First Search Approach"""
 
     def bfs(row, column):
         queue = deque([(row, column)])
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
         while queue:
             r, c = queue.popleft()
-            if r < 0 or r >= len(matrix) or c < 0 or c >= len(matrix[0]) or matrix[r][c] == 0:
+            if not (0 <= r < len(matrix)) or not (0 <= c < len(matrix[0])) or matrix[r][c] == 0:
                 continue
             matrix[r][c] = 0
-            queue.extend([(r - 1, c), (r + 1, c), (r, c - 1), (r, c + 1)])
+            queue.extend((r + dr, c + dc) for dr, dc in directions)
 
     count = 0
-    for row in range(len(matrix)):
-        for column in range(len(matrix[0])):
-            if matrix[row][column] == 1:
+    for row, row_values in enumerate(matrix):
+        for column, value in enumerate(row_values):
+            if value == 1:
                 count += 1
                 bfs(row, column)
+
     return count
