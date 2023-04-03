@@ -10,6 +10,7 @@ Initially, a DFS implementation was created. To eliminate recursion, a BFS imple
 
 # Performance Comparison
 
+The experiments were conducted on a machine equipped with an Intel© Core™ i7-8550U CPU @ 1.80GHz × 4 processor and 15.5 GiB of memory, utilizing the CPU for computations.
 The following performance comparison is based on test results:
 
 | Test Case      | BFS Memory Usage (KB) | DFS Memory Usage (KB) | BFS Execution Time (100 runs) | DFS Execution Time (100 runs) |
